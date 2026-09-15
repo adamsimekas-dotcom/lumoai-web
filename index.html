@@ -41,3 +41,37 @@
   <footer><div class="shell"><span>© 2026 LumoAI</span><span>Učení má mít místo i na život.</span></div></footer>
 </body>
 </html>
+<style>
+  @keyframes lumo-rise { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes lumo-float { 0%,100% { transform:rotate(2deg) translateY(0); } 50% { transform:rotate(1deg) translateY(-13px); } }
+  @keyframes lumo-drift { 0%,100% { transform:translate3d(0,0,0) scale(1); } 50% { transform:translate3d(-3%,3%,0) scale(1.08); } }
+  @keyframes lumo-pulse { 0%,100% { box-shadow:0 0 0 0 rgba(201,255,201,.38); } 50% { box-shadow:0 0 0 9px rgba(201,255,201,0); } }
+  @keyframes lumo-shimmer { 0% { transform:translateX(-125%) skewX(-18deg); } 100% { transform:translateX(240%) skewX(-18deg); } }
+  body::before { content:""; position:fixed; z-index:-2; inset:0; pointer-events:none; background:radial-gradient(circle at 88% 8%,#d8d4ff88,transparent 29%),radial-gradient(circle at 9% 73%,#d9ffd944,transparent 26%); }
+  .hero::before { animation:lumo-drift 11s ease-in-out infinite; }
+  .nav { animation:lumo-rise .7s cubic-bezier(.2,.8,.2,1) both; }
+  .hero .pill { animation:lumo-rise .7s .08s cubic-bezier(.2,.8,.2,1) both; }
+  .hero h1 { animation:lumo-rise .8s .18s cubic-bezier(.2,.8,.2,1) both; }
+  .hero .lead { animation:lumo-rise .8s .3s cubic-bezier(.2,.8,.2,1) both; }
+  .hero .actions { animation:lumo-rise .8s .42s cubic-bezier(.2,.8,.2,1) both; }
+  .hero .note { animation:lumo-rise .8s .52s cubic-bezier(.2,.8,.2,1) both; }
+  .planner { animation:lumo-rise .9s .25s cubic-bezier(.2,.8,.2,1) both, lumo-float 6s 1.2s ease-in-out infinite; }
+  .event { animation:lumo-rise .55s both; }
+  .day:nth-child(1) .event { animation-delay:.55s; } .day:nth-child(2) .event { animation-delay:.66s; } .day:nth-child(3) .event { animation-delay:.77s; } .day:nth-child(4) .event { animation-delay:.88s; } .day:nth-child(5) .event { animation-delay:.99s; }
+  .event.study { animation:lumo-rise .55s both, lumo-pulse 2.7s 1.5s ease-in-out infinite; }
+  .button { position:relative; overflow:hidden; } .button::after { content:""; position:absolute; top:-30%; left:0; width:34%; height:160%; background:linear-gradient(90deg,transparent,#ffffff4d,transparent); opacity:0; } .button:hover::after { opacity:1; animation:lumo-shimmer .65s ease; }
+  .card { transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s; } .card:hover { transform:translateY(-9px) rotate(-.45deg); border-color:#cfcaff; box-shadow:0 23px 45px #443aa522; } .card:hover .icon { transform:rotate(-9deg) scale(1.08); } .icon { transition:transform .35s cubic-bezier(.2,.8,.2,1); }
+  .motion-ready { opacity:0; transform:translateY(38px); transition:opacity .75s ease,transform .75s cubic-bezier(.2,.8,.2,1); } .motion-ready.in-view { opacity:1; transform:translateY(0); }
+  .quote { transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s; } .quote:hover { transform:scale(1.012); box-shadow:0 30px 60px #5f50d94f; }
+  @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
+</style>
+<script>
+  (() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const items = document.querySelectorAll('.trust, .section, .cta');
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
+    }), { threshold: .14 });
+    items.forEach((item) => { item.classList.add('motion-ready'); observer.observe(item); });
+  })();
+</script>
